@@ -336,3 +336,117 @@ h2{font-size:clamp(29px,2.3vw,38px);font-weight:500;letter-spacing:-.04em;line-h
   .complete-button{right:14px;left:14px}
   .order-label,.order-title,.order-dimensions,.order-customer{max-width:calc(100% - 78px)}
 }
+
+/* v7 — phone-only fixes for the Completed section. Nothing else is changed. */
+@media (max-width: 560px){
+  /* On phones the history should scroll with the page, not inside its own box. */
+  .board-column--completed #completedOrders{
+    max-height:none;
+    overflow:visible;
+    padding-right:0;
+    scrollbar-gutter:auto;
+  }
+
+  .board-column--completed .column-heading--completed{
+    margin-bottom:18px;
+  }
+  .board-column--completed .clear-completed-button{
+    margin-top:14px;
+  }
+
+  /* Fully reset the generic mobile order-card layout for completed cards. */
+  .order-card--completed{
+    display:grid;
+    position:relative;
+    min-height:126px;
+    padding:14px;
+    grid-template-columns:76px minmax(0,1fr) 38px;
+    grid-template-rows:auto;
+    column-gap:12px;
+    align-items:center;
+    border-radius:16px;
+  }
+  .order-card--completed .order-card__main{
+    display:block;
+    min-width:0;
+    grid-column:2;
+  }
+  .order-card--completed .order-number{
+    margin:0 0 6px;
+    padding:0;
+    color:var(--green);
+    font-size:13px;
+    line-height:1.1;
+    overflow-wrap:anywhere;
+  }
+  .order-card--completed .order-title{
+    max-width:none;
+    margin:0 0 7px;
+    color:#5b675f;
+    font-size:17px;
+    line-height:1.12;
+    overflow-wrap:anywhere;
+  }
+  .order-card--completed .order-customer{
+    display:block;
+    max-width:none;
+    margin:0 0 6px;
+    color:#69758b;
+    font-size:12px;
+    line-height:1.25;
+    overflow-wrap:anywhere;
+  }
+  .order-card--completed .order-time{
+    display:block;
+    color:#8a94a8;
+    font-size:11px;
+    line-height:1.25;
+  }
+  .order-card--completed .completed-thumbnail{
+    position:relative;
+    inset:auto;
+    grid-column:1;
+    grid-row:1;
+    align-self:stretch;
+    width:76px;
+    min-height:96px;
+    border-radius:12px;
+  }
+  .order-card--completed .completed-mark{
+    position:static;
+    grid-column:3;
+    grid-row:1;
+    width:36px;
+    height:36px;
+    justify-self:end;
+    align-self:center;
+    font-size:24px;
+    transform:none;
+  }
+  .order-card--completed>.urgent-badge{
+    position:absolute;
+    top:8px;
+    right:8px;
+    z-index:2;
+    padding:4px 7px;
+    font-size:7px;
+  }
+}
+
+@media (max-width: 380px){
+  .order-card--completed{
+    grid-template-columns:66px minmax(0,1fr) 34px;
+    column-gap:10px;
+    padding:12px;
+  }
+  .order-card--completed .completed-thumbnail{
+    width:66px;
+    min-height:88px;
+  }
+  .order-card--completed .completed-mark{
+    width:32px;
+    height:32px;
+    font-size:21px;
+  }
+  .order-card--completed .order-title{font-size:16px}
+}
