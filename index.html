@@ -21,7 +21,14 @@
     </div>
   </header>
 
-  <main class="board">
+  <div class="view-toolbar" aria-label="Режим отображения">
+    <div class="view-switcher">
+      <button class="view-switcher__button is-active" id="ordersViewButton" type="button">Заказы</button>
+      <button class="view-switcher__button" id="calendarViewButton" type="button">Календарь</button>
+    </div>
+  </div>
+
+  <main class="board" id="ordersView">
     <section class="board-column board-column--new">
       <div class="column-heading column-heading--new">
         <div>
@@ -52,6 +59,24 @@
       </div>
       <div class="orders-list" id="completedOrders"></div>
       <div class="empty-state" id="completedEmpty" hidden>Завершённых заказов пока нет</div>
+    </section>
+  </main>
+
+  <main class="calendar-view" id="calendarView" hidden>
+    <section class="calendar-panel">
+      <div class="calendar-toolbar">
+        <button class="calendar-nav" id="calendarPrev" type="button" aria-label="Предыдущий месяц">‹</button>
+        <div class="calendar-title-wrap">
+          <p class="column-kicker">План сдачи</p>
+          <h2 class="calendar-title" id="calendarTitle"></h2>
+        </div>
+        <button class="calendar-nav" id="calendarNext" type="button" aria-label="Следующий месяц">›</button>
+        <button class="calendar-today" id="calendarToday" type="button">Сегодня</button>
+      </div>
+      <div class="calendar-weekdays" aria-hidden="true">
+        <span>Пн</span><span>Вт</span><span>Ср</span><span>Чт</span><span>Пт</span><span>Сб</span><span>Вс</span>
+      </div>
+      <div class="calendar-grid" id="calendarGrid"></div>
     </section>
   </main>
 
@@ -106,6 +131,16 @@
       <div class="completed-mark" aria-hidden="true">✓</div>
     </article>
   </template>
+
+  <div class="modal-backdrop" id="calendarDayModal" hidden>
+    <section class="day-modal" role="dialog" aria-modal="true" aria-labelledby="dayModalTitle">
+      <div class="day-modal__header">
+        <div><p class="column-kicker">Заказы на дату</p><h3 id="dayModalTitle"></h3></div>
+        <button class="day-modal__close" id="dayModalClose" type="button" aria-label="Закрыть">×</button>
+      </div>
+      <div class="day-modal__orders" id="dayModalOrders"></div>
+    </section>
+  </div>
 
   <div class="modal-backdrop" id="imageModal" hidden>
     <img class="image-modal__content" id="imageModalContent" alt="Изображение заказа">
