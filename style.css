@@ -245,3 +245,94 @@ h2{font-size:clamp(29px,2.3vw,38px);font-weight:500;letter-spacing:-.04em;line-h
   .day-modal__header h3{font-size:21px}
   .day-order{padding:12px;border-radius:12px}
 }
+
+/* v6 — mobile card layout only. Desktop/tablet rules above stay unchanged. */
+@media (max-width: 560px){
+  .order-card{
+    display:block;
+    position:relative;
+    min-height:0;
+    padding:16px 16px 78px;
+  }
+  .order-card__main{display:block}
+  .order-card__top{
+    display:flex;
+    align-items:flex-start;
+    gap:8px;
+    margin:0 0 10px;
+    padding-right:0;
+  }
+  .order-card__top .order-number{
+    flex:1 1 auto;
+    min-width:0;
+    margin:0;
+    padding:0;
+    font-size:clamp(20px,6.4vw,25px);
+    line-height:1.08;
+  }
+  .order-actions{
+    flex:0 0 auto;
+    display:flex;
+    gap:6px;
+    margin:0;
+  }
+  .edit-button,.delete-order-button{
+    position:static;
+    width:32px;
+    height:32px;
+    flex:0 0 32px;
+  }
+  .order-flags{
+    position:static;
+    display:flex;
+    justify-content:flex-start;
+    margin:0 0 14px;
+  }
+  /* Reserve the upper-right area for the preview. */
+  .order-label,.order-title,.order-dimensions,.order-customer{
+    display:block;
+    max-width:calc(100% - 84px);
+  }
+  .order-label{margin-bottom:4px}
+  .order-title{margin-bottom:10px}
+  .order-thumbnail{
+    position:absolute;
+    top:58px;
+    right:16px;
+    bottom:auto;
+    width:68px;
+    height:68px;
+    border-radius:12px;
+  }
+  .order-card:has(.order-flags .urgent-badge) .order-thumbnail{top:94px}
+  .order-meta{
+    position:static;
+    display:flex;
+    flex-direction:column;
+    gap:5px;
+    margin:18px 0 14px;
+    padding:0;
+    font-size:11px;
+    white-space:normal;
+  }
+  .order-meta .order-created,.order-meta .order-deadline{display:block}
+  .complete-button{
+    position:absolute;
+    right:16px;
+    bottom:16px;
+    left:16px;
+    width:auto;
+    min-width:0;
+    min-height:46px;
+    padding:10px 14px;
+    border-radius:12px;
+    font-size:15px;
+  }
+}
+
+@media (max-width: 380px){
+  .order-card{padding-inline:14px}
+  .order-thumbnail{right:14px}
+  .complete-button{right:14px;left:14px}
+  .order-label,.order-title,.order-dimensions,.order-customer{max-width:calc(100% - 78px)}
+}
