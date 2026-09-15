@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#4f78e8">
+  <title>LuxPrint — Табло цеха</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="page-header">
+    <div class="page-header__inner">
+      <div>
+        <p class="brand">LUXPRINT</p>
+        <h1>Табло цеха</h1>
+      </div>
+      <div class="connection-status" id="connectionStatus">Подключение…</div>
+    </div>
+  </header>
+
+  <main class="board">
+    <section class="board-column board-column--new">
+      <div class="column-heading column-heading--new">
+        <div>
+          <p class="column-kicker">В производстве</p>
+          <h2>Новые заказы</h2>
+        </div>
+        <label class="deadline-filter" for="deadlineFilter">
+          <input id="deadlineFilter" type="checkbox">
+          <span class="deadline-filter__track" aria-hidden="true"><span></span></span>
+          <span class="deadline-filter__text">Отображать близкие к дедлайну</span>
+        </label>
+        <span class="counter counter--new" id="newCount">0</span>
+      </div>
+
+      <div class="orders-list" id="newOrders"></div>
+      <div class="empty-state" id="newEmpty" hidden>Новых заказов пока нет</div>
+      <nav class="pagination" id="pagination" aria-label="Страницы новых заказов"></nav>
+    </section>
+
+    <section class="board-column board-column--completed">
+      <div class="column-heading column-heading--completed">
+        <div>
+          <p class="column-kicker">История</p>
+          <h2>Завершённые</h2>
+          <button id="clearCompletedButton" class="clear-completed-button" type="button">Очистить завершённые</button>
+        </div>
+        <span class="counter" id="completedCount">0</span>
+      </div>
+      <div class="orders-list" id="completedOrders"></div>
+      <div class="empty-state" id="completedEmpty" hidden>Завершённых заказов пока нет</div>
+    </section>
+  </main>
+
+  <template id="newOrderTemplate">
+    <article class="new-order-row">
+      <div class="order-card">
+        <div class="order-card__main">
+          <div class="order-number"></div>
+          <span class="order-label">Название</span>
+          <h3 class="order-title"></h3>
+          <span class="order-dimensions"></span>
+          <span class="order-customer"></span>
+          <div class="order-meta">
+            <time class="order-created"></time>
+            <span class="order-deadline"></span>
+          </div>
+        </div>
+        <button class="edit-button" type="button" title="Редактировать заказ" aria-label="Редактировать заказ">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4.2L19 9.2 14.8 5 4 15.8V20Zm2-3.4 8.8-8.8 1.4 1.4L7.4 18H6v-1.4ZM17.1 2.7a1 1 0 0 1 1.4 0l2.8 2.8a1 1 0 0 1 0 1.4l-1.6 1.6-4.2-4.2 1.6-1.6Z"/></svg>
+        </button>
+        <button class="delete-order-button" type="button" title="Удалить заказ" aria-label="Удалить заказ">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M8 4h8l1 2h4v2H3V6h4l1-2Zm1 6h2v7H9v-7Zm4 0h2v7h-2v-7ZM6 9h12l-1 11H7L6 9Z"/>
+          </svg>
+        </button>
+        <button class="order-thumbnail" type="button" aria-label="Открыть изображение">
+          <img class="order-thumbnail__image" alt="">
+          <span class="order-thumbnail__placeholder" aria-hidden="true"></span>
+        </button>
+        <button class="complete-button" type="button">Готово</button>
+      </div>
+    </article>
+  </template>
+
+  <template id="completedOrderTemplate">
+    <article class="order-card order-card--completed">
+      <button class="completed-thumbnail" type="button" aria-label="Открыть изображение заказа">
+        <img class="completed-thumbnail__image" alt="">
+        <span class="completed-thumbnail__placeholder">Нет фото</span>
+      </button>
+      <div class="order-card__main">
+        <div class="order-number"></div>
+        <h3 class="order-title"></h3>
+        <span class="order-customer"></span>
+        <time class="order-time"></time>
+      </div>
+      <div class="completed-mark" aria-hidden="true">✓</div>
+    </article>
+  </template>
+
+  <div class="modal-backdrop" id="imageModal" hidden>
+    <img class="image-modal__content" id="imageModalContent" alt="Изображение заказа">
+  </div>
+  <div class="modal-backdrop" id="editModal" hidden>
+    <form class="edit-modal" id="editForm">
+      <h3>Редактировать заказ</h3>
+      <label><span>Номер заказа</span><input id="editOrderNumber" type="text" required></label>
+      <label><span>Название</span><input id="editOrderTitle" type="text" required></label>
+      <p class="edit-error" id="editError" hidden></p>
+      <div class="edit-actions">
+        <button class="edit-cancel" id="editCancelButton" type="button">Отмена</button>
+        <button class="edit-save" type="submit">Сохранить</button>
+      </div>
+    </form>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
