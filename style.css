@@ -84,3 +84,51 @@ h2{font-size:clamp(29px,2.3vw,38px);font-weight:500;letter-spacing:-.04em;line-h
 @media(max-width:880px){.page-header,.page-header__inner{min-height:112px}.board{grid-template-columns:1fr;padding:22px 18px 30px}.board-column{min-height:auto}.board-column--completed{padding:28px}.deadline-filter__text{display:none}.counter--new{display:grid}.column-heading--new{align-items:flex-start}.deadline-filter{margin-top:10px}.board-column--new .orders-list{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.order-card{min-height:225px;padding-right:135px}.order-meta{right:135px}}
 @media(max-width:680px){.urgent-badge{top:20px;right:118px}.order-card--completed .urgent-badge{top:16px;right:62px}.page-header{padding:0 18px}.page-header__inner{align-items:center}.connection-status{max-width:145px;overflow:hidden;text-overflow:ellipsis}h1{font-size:34px}.board{padding:16px 12px 24px}.board-column{padding:24px 16px;border-radius:20px}.board-column--new .orders-list{grid-template-columns:1fr}.column-heading{margin-bottom:22px}.column-heading--new{display:grid;grid-template-columns:1fr auto}.deadline-filter{grid-column:1/-1;margin:4px 0 0}.deadline-filter__text{display:inline}.counter--new{display:none}.order-card{min-height:230px;padding:20px 118px 78px 18px}.order-number{font-size:21px}.edit-button{top:15px;left:auto;right:82px}.delete-order-button{top:15px;left:auto;right:46px}.order-thumbnail{top:58px;right:18px;width:72px;height:72px}.complete-button{right:18px;bottom:18px;min-width:96px;min-height:44px}.order-meta{right:18px;bottom:19px;left:18px;grid-template-columns:1fr;gap:4px;padding-right:110px;white-space:normal}.order-card--completed{min-height:142px;padding:16px 62px 16px 102px}.completed-thumbnail{top:16px;bottom:16px;left:16px;width:70px}.pagination{margin-top:28px}.column-heading--completed h2{font-size:31px}}
 @media(max-width:430px){.urgent-badge{right:108px}.brand{font-size:10px}.connection-status{padding:7px 10px;font-size:10px}.board-column{padding-inline:14px}.order-card{padding-right:102px}.order-title{font-size:22px}.order-thumbnail{right:14px}.complete-button{right:14px}.edit-button{right:76px}.delete-order-button{right:42px}.order-meta{right:14px;left:16px}.clear-completed-button{padding-inline:16px}.counter{min-width:52px;height:52px;border-radius:15px}}
+
+/* v3: resilient card header + responsive layout */
+.order-card__top{display:flex;min-width:0;align-items:center;gap:10px;margin-bottom:14px}
+.order-card__top .order-number{min-width:0;margin-bottom:0;overflow-wrap:anywhere}
+.order-actions{display:flex;flex:0 0 auto;gap:6px}
+.edit-button,.delete-order-button{position:static;flex:0 0 30px}
+.order-flags{position:absolute;top:22px;right:112px;z-index:2;display:flex;align-items:center;justify-content:flex-end;gap:6px;pointer-events:none}
+.urgent-badge{position:static}
+.order-card--completed>.urgent-badge{position:absolute;top:18px;right:72px}
+
+@media(max-width:1500px){
+  .board-column--new .orders-list{grid-template-columns:1fr}
+  .order-card{min-height:220px}
+  .order-card__top{padding-right:0}
+}
+@media(min-width:1501px){
+  .order-card__top{max-width:calc(100% - 8px)}
+}
+@media(max-width:1180px){
+  .order-card__top{gap:8px}
+  .order-number{font-size:clamp(20px,2.2vw,25px)}
+}
+@media(max-width:880px){
+  .board-column--new .orders-list{grid-template-columns:1fr}
+  .order-card{padding-right:135px}
+}
+@media(max-width:680px){
+  .order-card{padding:18px 18px 118px}
+  .order-card__top{padding-right:0;align-items:flex-start}
+  .order-card__top .order-number{flex:1;font-size:clamp(20px,6vw,25px);line-height:1.08}
+  .order-actions{margin-top:-2px}
+  .order-flags{position:static;justify-content:flex-start;margin:-5px 0 12px;pointer-events:auto}
+  .urgent-badge{font-size:9px}
+  .order-thumbnail{top:auto;right:18px;bottom:18px;width:72px;height:72px}
+  .complete-button{right:100px;bottom:18px;min-width:96px}
+  .order-meta{right:18px;bottom:94px;left:18px;display:flex;flex-wrap:wrap;gap:5px 18px;padding-right:0;white-space:normal}
+  .order-meta>*{min-width:0}
+}
+@media(max-width:430px){
+  .order-card{padding:16px 14px 126px}
+  .order-card__top{gap:7px}
+  .order-actions{gap:4px}
+  .edit-button,.delete-order-button{width:28px;height:28px;flex-basis:28px}
+  .order-title{font-size:21px}
+  .order-meta{right:14px;left:14px;bottom:100px;font-size:11px}
+  .order-thumbnail{right:14px;bottom:14px;width:66px;height:66px}
+  .complete-button{right:88px;bottom:14px;min-width:90px;min-height:42px}
+}

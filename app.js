@@ -110,7 +110,8 @@ function createOrderCard(order,completed){
     const badge=document.createElement('span');
     badge.className='urgent-badge';
     badge.textContent='СРОЧНО';
-    urgentCard?.appendChild(badge);
+    const flags=urgentCard?.querySelector('.order-flags');
+    if(flags) flags.appendChild(badge); else urgentCard?.appendChild(badge);
   }
 
   if(completed){
