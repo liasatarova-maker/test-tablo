@@ -105,11 +105,12 @@ function createOrderCard(order,completed){
   card.querySelector('.order-title').textContent=order.title||'Без названия';
 
   if(order.urgent===true){
-    card.classList.add('order-card--urgent');
+    const urgentCard=card.matches('.order-card') ? card : card.querySelector('.order-card');
+    urgentCard?.classList.add('order-card--urgent');
     const badge=document.createElement('span');
     badge.className='urgent-badge';
     badge.textContent='СРОЧНО';
-    card.querySelector('.order-number').appendChild(badge);
+    urgentCard?.appendChild(badge);
   }
 
   if(completed){
