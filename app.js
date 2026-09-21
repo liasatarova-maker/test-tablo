@@ -515,12 +515,22 @@ async function clearCompletedOrders(){
     }
 
     const completedRows=await listResponse.json();
-    await Promise.all(
+    const imagePaths=[...new Set(
       completedRows
         .map((row)=>row.image_path)
         .filter(Boolean)
-        .map((path)=>deleteStorageObject(path))
+    )];
+
+    const storageResults=await Promise.allSettled(
+      imagePaths.map((path)=>deleteStorageObject(path))
     );
+    const failedStorageDeletes=storageResults.filter((result)=>result.status==='rejected');
+    if(failedStorageDeletes.length){
+      console.warn(
+        `Не удалось удалить ${failedStorageDeletes.length} изображений завершённых заказов. Очистка заказов будет продолжена.`,
+        failedStorageDeletes.map((result)=>result.reason)
+      );
+    }
 
     const response=await fetch(
       `${ORDERS_ENDPOINT}?status=eq.completed`,
