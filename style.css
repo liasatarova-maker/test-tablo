@@ -467,3 +467,12 @@ h2{font-size:clamp(29px,2.3vw,38px);font-weight:500;letter-spacing:-.04em;line-h
   .edit-fields{grid-template-columns:1fr}
   .edit-fields label{grid-column:1!important}
 }
+
+
+/* v9 — system order notifications */
+.header-status{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+.notification-enable{border:1px solid #d8e0ef;background:#fff;color:#33415f;border-radius:10px;padding:9px 12px;font:600 12px/1 Onest,sans-serif;cursor:pointer;box-shadow:0 2px 8px rgba(37,55,95,.06)}
+.notification-enable:hover{background:#f6f8fc}
+.notification-enable.is-enabled{color:#258257;background:#eefaf4;border-color:#cdebdc}
+.notification-enable.is-blocked{color:#a34b4b;background:#fff3f3;border-color:#f0d0d0}
+@media(max-width:560px){.header-status{gap:6px}.notification-enable{padding:8px 10px;font-size:11px}}
