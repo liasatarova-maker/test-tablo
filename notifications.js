@@ -30,29 +30,18 @@
 
   function playSignal(urgent=false){
     try{
-      const AudioContext=window.AudioContext||window.webkitAudioContext;
-      if(!AudioContext) return;
-      const ctx=new AudioContext();
-      const beep=(delay,frequency)=>{
-        const osc=ctx.createOscillator();
-        const gain=ctx.createGain();
-        osc.type='triangle';
-        osc.frequency.value=frequency;
-        gain.gain.setValueAtTime(0.0001,ctx.currentTime+delay);
-        gain.gain.exponentialRampToValueAtTime(0.22,ctx.currentTime+delay+0.02);
-        gain.gain.exponentialRampToValueAtTime(0.09,ctx.currentTime+delay+0.34);
-        gain.gain.exponentialRampToValueAtTime(0.0001,ctx.currentTime+delay+0.68);
-        osc.connect(gain); gain.connect(ctx.destination);
-        osc.start(ctx.currentTime+delay); osc.stop(ctx.currentTime+delay+0.7);
+      const playOnce=(delay=0)=>{
+        window.setTimeout(()=>{
+          const audio=new Audio('notification.mp3');
+          audio.volume=0.85;
+          audio.play().catch((error)=>console.warn('Notification sound blocked',error));
+        },delay);
       };
-      beep(0,1320);
-      beep(0.18,1760);
-      if(urgent){
-        beep(0.72,1568);
-        beep(0.90,2093);
-      }
-      setTimeout(()=>ctx.close().catch(()=>{}),1900);
-    }catch(error){console.warn('Notification sound error',error);}
+      playOnce();
+      if(urgent) playOnce(2200);
+    }catch(error){
+      console.warn('Notification sound error',error);
+    }
   }
 
   function notifyOrder(order){
