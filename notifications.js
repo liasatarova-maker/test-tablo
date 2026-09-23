@@ -38,7 +38,6 @@
         },delay);
       };
       playOnce();
-      if(urgent) playOnce(2200);
     }catch(error){
       console.warn('Notification sound error',error);
     }
