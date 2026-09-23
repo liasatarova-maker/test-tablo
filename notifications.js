@@ -17,13 +17,9 @@
   }
 
   function notifyOrder(order){
+    // FCM already provides the visual notification. While the dashboard is
+    // open we only play LuxPrint's custom sound, avoiding a duplicate popup.
     if(Notification.permission!=='granted') return;
-    const urgent=order.urgent===true;
-    const title=urgent?'⚡ LuxPrint — СРОЧНЫЙ заказ №'+(order.order_number||'—'):'LuxPrint — новый заказ №'+(order.order_number||'—');
-    const lines=[order.title||'Без названия','Размер: '+(order.dimensions||'не указан'),'Заказчик: '+(order.customer||'не указан'),'Сдать: '+formatDeadline(order.deadline)];
-    const notification=new Notification(title,{body:lines.join('\n'),tag:'luxprint-order-'+orderKey(order),renotify:true,requireInteraction:false});
-    const timer=setTimeout(()=>notification.close(),60000);
-    notification.onclick=()=>{clearTimeout(timer);window.focus();notification.close();};
     playSignal();
   }
 
