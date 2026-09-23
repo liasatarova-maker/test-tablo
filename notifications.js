@@ -36,17 +36,22 @@
       const beep=(delay,frequency)=>{
         const osc=ctx.createOscillator();
         const gain=ctx.createGain();
-        osc.type='sine';
+        osc.type='triangle';
         osc.frequency.value=frequency;
         gain.gain.setValueAtTime(0.0001,ctx.currentTime+delay);
-        gain.gain.exponentialRampToValueAtTime(0.16,ctx.currentTime+delay+0.015);
-        gain.gain.exponentialRampToValueAtTime(0.0001,ctx.currentTime+delay+0.22);
+        gain.gain.exponentialRampToValueAtTime(0.22,ctx.currentTime+delay+0.02);
+        gain.gain.exponentialRampToValueAtTime(0.09,ctx.currentTime+delay+0.34);
+        gain.gain.exponentialRampToValueAtTime(0.0001,ctx.currentTime+delay+0.68);
         osc.connect(gain); gain.connect(ctx.destination);
-        osc.start(ctx.currentTime+delay); osc.stop(ctx.currentTime+delay+0.24);
+        osc.start(ctx.currentTime+delay); osc.stop(ctx.currentTime+delay+0.7);
       };
-      beep(0,880);
-      if(urgent) beep(0.28,1046);
-      setTimeout(()=>ctx.close().catch(()=>{}),900);
+      beep(0,1320);
+      beep(0.18,1760);
+      if(urgent){
+        beep(0.72,1568);
+        beep(0.90,2093);
+      }
+      setTimeout(()=>ctx.close().catch(()=>{}),1900);
     }catch(error){console.warn('Notification sound error',error);}
   }
 
