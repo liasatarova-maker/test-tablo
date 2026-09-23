@@ -10,7 +10,6 @@
     const headers={'Content-Type':'application/json'};
     if(SUPABASE_ANON_KEY){
       headers.apikey=SUPABASE_ANON_KEY;
-      headers.Authorization='Bearer '+SUPABASE_ANON_KEY;
     }
     const response=await fetch(SUPABASE_URL+'/functions/v1/register-push-token',{
       method:'POST',
