@@ -2,7 +2,7 @@
   const button=document.querySelector('#notificationEnable');
   const DISABLED_KEY='luxprint-push-disabled';
   const SUPABASE_URL='https://noexqgtatuafpcytkout.supabase.co';
-  const SUPABASE_ANON_KEY=window.SUPABASE_ANON_KEY || window.supabaseAnonKey || '';
+  const SUPABASE_ANON_KEY='sb_publishable_M-7Rz3leG_KBW96bAkfjoQ_RIatteZu';
   if(!button || !('serviceWorker' in navigator)) return;
 
   async function saveToken(token){
