@@ -1,7 +1,25 @@
 (()=> {
   const button=document.querySelector('#notificationEnable');
   const DISABLED_KEY='luxprint-push-disabled';
+  const SUPABASE_URL='https://noexqgtatuafpcytkout.supabase.co';
+  const SUPABASE_ANON_KEY=window.SUPABASE_ANON_KEY || window.supabaseAnonKey || '';
   if(!button || !('serviceWorker' in navigator)) return;
+
+  async function saveToken(token){
+    if(!token) return;
+    const headers={'Content-Type':'application/json'};
+    if(SUPABASE_ANON_KEY){
+      headers.apikey=SUPABASE_ANON_KEY;
+      headers.Authorization='Bearer '+SUPABASE_ANON_KEY;
+    }
+    const response=await fetch(SUPABASE_URL+'/functions/v1/register-push-token',{
+      method:'POST',
+      headers,
+      body:JSON.stringify({token,source:'test-tablo'})
+    });
+    if(!response.ok) throw new Error('Push token save failed: '+response.status);
+    console.info('LuxPrint push token saved');
+  }
 
   async function registerPush(){
     if(Notification.permission!=='granted') return null;
@@ -18,13 +36,14 @@
     if(token){
       localStorage.setItem('luxprint-fcm-token',token);
       console.info('LuxPrint push token registered');
+      await saveToken(token);
     }
     return token;
   }
 
   window.luxprintRegisterPush=registerPush;
 
-  if(Notification.permission==='granted'){
+  if(Notification.permission==='granted' && localStorage.getItem(DISABLED_KEY)!=='1'){
     registerPush().catch(error=>console.warn('Push registration failed',error));
   }
 
@@ -33,7 +52,7 @@
     const disabled=localStorage.getItem(DISABLED_KEY)==='1';
     if(disabled){
       localStorage.removeItem(DISABLED_KEY);
-      await registerPush();
+      try{ await registerPush(); }catch(error){ console.warn('Push registration failed',error); }
       button.textContent='Уведомления включены';
       button.classList.add('is-enabled');
     }else{
