@@ -16,7 +16,7 @@
       headers,
       body:JSON.stringify({token,source:'test-tablo'})
     });
-    if(!response.ok) throw new Error('Push token save failed: '+response.status);
+    if(!response.ok){ const details=await response.text(); throw new Error('Push token save failed: '+response.status+' '+details); }
     console.info('LuxPrint push token saved');
   }
 
