@@ -1,5 +1,6 @@
 (()=> {
   const button=document.querySelector('#notificationEnable');
+  const DISABLED_KEY='luxprint-push-disabled';
   if(!button || !('serviceWorker' in navigator)) return;
 
   async function registerPush(){
@@ -27,11 +28,24 @@
     registerPush().catch(error=>console.warn('Push registration failed',error));
   }
 
-  button.addEventListener('click',()=>{
-    window.setTimeout(()=>{
-      if(Notification.permission==='granted'){
-        registerPush().catch(error=>console.warn('Push registration failed',error));
-      }
-    },0);
+  button.addEventListener('click',async()=>{
+    if(Notification.permission!=='granted') return;
+    const disabled=localStorage.getItem(DISABLED_KEY)==='1';
+    if(disabled){
+      localStorage.removeItem(DISABLED_KEY);
+      await registerPush();
+      button.textContent='Уведомления включены';
+      button.classList.add('is-enabled');
+    }else{
+      localStorage.setItem(DISABLED_KEY,'1');
+      localStorage.removeItem('luxprint-fcm-token');
+      button.textContent='Уведомления выключены';
+      button.classList.remove('is-enabled');
+    }
   });
+
+  if(Notification.permission==='granted' && localStorage.getItem(DISABLED_KEY)==='1'){
+    button.textContent='Уведомления выключены';
+    button.classList.remove('is-enabled');
+  }
 })();
