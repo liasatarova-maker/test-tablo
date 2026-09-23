@@ -10,4 +10,25 @@ firebase.initializeApp({
   appId: "1:1063984512841:web:d629d87538560cbb77a498"
 });
 
-firebase.messaging();
+const messaging=firebase.messaging();
+
+messaging.onBackgroundMessage((payload)=>{
+  console.log('[firebase-messaging-sw.js] Background message received',payload);
+  // Notification payloads are displayed by FCM automatically in the background.
+  // For data-only payloads, display the notification ourselves.
+  if(payload.notification) return;
+  const title=payload.data?.title || 'LuxPrint — новый заказ';
+  const options={
+    body:payload.data?.body || 'На табло появился новый заказ',
+    icon:payload.data?.icon || undefined,
+    data:{url:payload.data?.url || './'}
+  };
+  self.registration.showNotification(title,options);
+});
+
+self.addEventListener('notificationclick',(event)=>{
+  const url=event.notification?.data?.url;
+  if(!url) return;
+  event.notification.close();
+  event.waitUntil(clients.openWindow(url));
+});
